@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Icon } from '@iconify/react';
 
 function Note(props) {
   function handleClick() {
@@ -10,7 +10,7 @@ function Note(props) {
     <div className="note">
       <h1>{props.title}</h1>
       <p>{props.content}</p>
-      <button onClick={handleClick}>Delete</button>
+      <button onClick={handleClick}><Icon icon="ic:baseline-delete" color="#f5ba13" width="30" height="30" /></button>
     </div>
   );
 }

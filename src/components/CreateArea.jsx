@@ -1,51 +1,69 @@
 import React, { useState } from "react";
+import { Icon } from '@iconify/react';
 
 function CreateArea(props) {
-    const [note,setNote] = useState({
-        title:"",
-        content:""
-    })
 
-    function handleChange(event){
-        const {name,value}= event.target;
+    // expand di set ke false, akan true ketika diklik
+const [isExpanded,setExpanded] = useState(false);
 
-        // utk mendapatkan note yang baru
-        // prevNote adalah note sebelumnya
-        setNote(prevNote =>{
-            // membuat objek baru 
-            return{
-                ...prevNote,
-                // Properti yang sesuai dengan name diperbarui dengan value baru
-                [name]:value
-            }
-        })
-    }
+const [note,setNote] = useState({
+title:"",
+content:""
+})
 
-    function submitNote(event){
-        // props.onAdd adalah function addNote
-        props.onAdd(note);
-        // ketika di submit maka input area akan kosong lagi
-        setNote({
-            title:"",
-            content:""
-        })
-          // default dari form adalah refresh page
-        // dgn preventDefault() mencegah refresh page
-        event.preventDefault();
+function handleChange(event){
+const {name,value}= event.target;
 
-    }
-    
-    return(
-        <div>
-            <form className="create-note">
-                <input type="text" onChange={handleChange} value={note.title} name="title" placeholder="title" />
-                <textarea name="content" onChange={handleChange} value={note.content} placeholder="take a note..">
+// utk mendapatkan note yang baru
+// prevNote adalah note sebelumnya
+setNote(prevNote =>{
+// membuat objek baru
+return{
+...prevNote,
+// Properti yang sesuai dengan name diperbarui dengan value baru
+[name]:value
+}
+})
+}
 
-                </textarea>
-                <button onClick={submitNote}>Add</button>
-            </form>
-        </div>
-    )
+function submitNote(event){
+// props.onAdd adalah function addNote
+props.onAdd(note);
+// ketika di submit maka input area akan kosong lagi
+setNote({
+title:"",
+content:""
+})
+// default dari form adalah refresh page
+// dgn preventDefault() mencegah refresh page
+event.preventDefault();
+}
+
+function expand(){
+setExpanded(true);
+}
+return(
+<div>
+    <form className="create-note">
+
+        {/* jika diklik, text area akan muncul */}
+        {isExpanded ? <input type="text" onChange={handleChange} value={note.title} name="title"
+            placeholder="title" />:null}
+
+        <textarea 
+        name="content" 
+        onClick={expand} 
+        onChange={handleChange} 
+        value={note.content}
+        placeholder="take a note.."
+        // klo false rownya 1 klo true 1 
+        rows={isExpanded? 3 : 1}>
+
+        </textarea>
+        <button onClick={submitNote}><Icon icon="ic:baseline-add" color="white" width="30" height="30" /></button>
+    </form>
+</div>
+)
 }
 
 export default CreateArea;
